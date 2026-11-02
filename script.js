@@ -393,7 +393,16 @@ const floatingMusicBtn = document.getElementById('floating-music-btn');
 const floatingMusicText = document.getElementById('floating-music-text');
 const floatingMusicIcon = document.getElementById('floating-music-icon');
 
+let isAudioPlaying = false;
+let isAudioStarting = false;
+
+// Preload audio element immediately for mobile devices
+if (weddingAudio) {
+  weddingAudio.load();
+}
+
 function updateMusicUI(isPlaying) {
+  isAudioPlaying = isPlaying;
   if (isPlaying) {
     if (musicText) musicText.textContent = "သံစဉ် ပိတ်ရန်";
     if (eqIndicator) eqIndicator.classList.remove('paused-eq');
@@ -419,20 +428,6 @@ function updateMusicUI(isPlaying) {
   }
 }
 
-function toggleMusic() {
-  if (!weddingAudio) return;
-  if (weddingAudio.paused) {
-    weddingAudio.play().then(() => {
-      updateMusicUI(true);
-    }).catch(err => {
-      console.warn("Audio playback blocked:", err);
-    });
-  } else {
-    weddingAudio.pause();
-    updateMusicUI(false);
-  }
-}
-
 function dismissWelcomeGate() {
   const gate = document.getElementById('welcome-gate');
   if (gate) {
@@ -440,52 +435,105 @@ function dismissWelcomeGate() {
     gate.style.pointerEvents = 'none';
     setTimeout(() => {
       gate.classList.add('hidden');
-    }, 700);
+    }, 600);
   }
 }
 
-function startMusicAndEnter() {
-  if (weddingAudio) {
-    weddingAudio.play().then(() => {
-      updateMusicUI(true);
-    }).catch(err => {
-      console.warn("Audio play error:", err);
-    });
+// Master Play function - robust, debounced, resilient on mobile Safari/Chrome
+function playWeddingMusic() {
+  if (!weddingAudio) return;
+  if (isAudioPlaying) {
+    dismissWelcomeGate();
+    return;
   }
-  dismissWelcomeGate();
+  if (isAudioStarting) return;
+
+  isAudioStarting = true;
+  weddingAudio.muted = false;
+
+  const playPromise = weddingAudio.play();
+  if (playPromise !== undefined) {
+    playPromise
+      .then(() => {
+        isAudioStarting = false;
+        isAudioPlaying = true;
+        updateMusicUI(true);
+        dismissWelcomeGate();
+        removeAutoPlayListeners();
+      })
+      .catch((err) => {
+        isAudioStarting = false;
+        console.log("Audio play awaiting valid touch interaction:", err.message);
+      });
+  } else {
+    isAudioStarting = false;
+  }
+}
+
+const startMusicAndEnter = playWeddingMusic;
+
+function toggleMusic() {
+  if (!weddingAudio) return;
+  if (weddingAudio.paused) {
+    playWeddingMusic();
+  } else {
+    weddingAudio.pause();
+    isAudioPlaying = false;
+    updateMusicUI(false);
+  }
+}
+
+// Global user interaction triggers for mobile phones (iOS & Android)
+// Explicitly exclude 'scroll' because browsers reject scroll as a media activation gesture
+const AUTO_PLAY_EVENTS = ['touchend', 'click', 'pointerup'];
+
+function onUserInteraction() {
+  if (!isAudioPlaying) {
+    playWeddingMusic();
+  }
+}
+
+function setupAutoPlayListeners() {
+  AUTO_PLAY_EVENTS.forEach(evt => {
+    window.addEventListener(evt, onUserInteraction, { capture: true, passive: true });
+    document.addEventListener(evt, onUserInteraction, { capture: true, passive: true });
+  });
+}
+
+function removeAutoPlayListeners() {
+  AUTO_PLAY_EVENTS.forEach(evt => {
+    window.removeEventListener(evt, onUserInteraction, { capture: true });
+    document.removeEventListener(evt, onUserInteraction, { capture: true });
+  });
 }
 
 // Auto start music when opened
 function tryAutoPlayMusic() {
   if (!weddingAudio) return;
 
-  const playPromise = weddingAudio.play();
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      // Direct autoplay permitted by browser
-      updateMusicUI(true);
-      dismissWelcomeGate();
-    }).catch(() => {
-      // Browser autoplay policy requires user gesture (e.g. mobile or strict policy)
-      updateMusicUI(false);
-      const onFirstInteraction = () => {
-        weddingAudio.play().then(() => {
-          updateMusicUI(true);
-        }).catch(() => { });
+  // 1. Attempt immediate unmuted play (succeeds on desktop or engaged browsers)
+  const promise = weddingAudio.play();
+  if (promise !== undefined) {
+    promise
+      .then(() => {
+        isAudioPlaying = true;
+        updateMusicUI(true);
         dismissWelcomeGate();
-        document.removeEventListener('click', onFirstInteraction);
-        document.removeEventListener('touchstart', onFirstInteraction);
-        document.removeEventListener('scroll', onFirstInteraction);
-        document.removeEventListener('keydown', onFirstInteraction);
-      };
-
-      document.addEventListener('click', onFirstInteraction, { once: true });
-      document.addEventListener('touchstart', onFirstInteraction, { once: true });
-      document.addEventListener('scroll', onFirstInteraction, { once: true });
-      document.addEventListener('keydown', onFirstInteraction, { once: true });
-    });
+      })
+      .catch(() => {
+        // 2. Blocked by mobile browser policy -> listen for user's touch anywhere on screen!
+        updateMusicUI(false);
+        setupAutoPlayListeners();
+      });
+  } else {
+    setupAutoPlayListeners();
   }
 }
+
+// WeChat & Mobile in-app browser auto-play bridge
+document.addEventListener("WeixinJSBridgeReady", () => {
+  playWeddingMusic();
+}, false);
 
 if (weddingAudio) {
   weddingAudio.addEventListener('play', () => updateMusicUI(true));

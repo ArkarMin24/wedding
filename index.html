@@ -63,11 +63,11 @@
 <body class="text-charcoal relative selection:bg-gold-light/40">
 
   <!-- Luxury Welcome Gate (Ensures 100% Instant Audio Playback across all mobile and desktop browsers) -->
-  <div id="welcome-gate"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/85 backdrop-blur-md p-4 transition-all duration-700">
+  <div id="welcome-gate" onclick="playWeddingMusic()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/85 backdrop-blur-md p-4 transition-all duration-700 cursor-pointer">
     <div
       class="relative max-w-sm sm:max-w-md w-full p-1 rounded-3xl bg-gradient-to-br from-[#DFBA73] via-[#C5A059] to-[#8C641E] shadow-2xl text-center">
-      <div class="bg-white/95 rounded-[22px] p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden">
+      <div class="bg-white/95 rounded-[22px] p-6 sm:p-8 backdrop-blur-sm relative overflow-hidden" onclick="event.stopPropagation(); playWeddingMusic();">
 
         <!-- Animated Golden Wax Seal Monogram -->
         <div
@@ -87,12 +87,12 @@
         </p>
 
         <!-- Tap to Open with Music Button -->
-        <button onclick="startMusicAndEnter()"
+        <button type="button" onclick="playWeddingMusic()"
           class="w-full py-3.5 px-6 rounded-full gold-foil-bg text-white font-burmese font-bold text-sm sm:text-base shadow-gold-glow hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2.5 cursor-pointer">
           <svg class="w-5 h-5 fill-current animate-spin-disc" viewBox="0 0 24 24">
             <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
           </svg>
-          <span>သံစဉ်နှင့်တကွ ဖွင့်လှစ်မည် (Open)</span>
+          <span>သံစဉ်နှင့်တကွ ဖွင့်လှစ်မည်</span>
         </button>
 
       </div>
@@ -606,8 +606,8 @@
               class="font-burmese text-charcoal-soft text-sm sm:text-base md:text-lg leading-[2.1] sm:leading-[2.3] space-y-4 sm:space-y-6 text-justify sm:text-center max-w-2xl mx-auto">
               <p>
                 ချစ်ခင်လေးစားရပါသော ချစ်အစ်ကို <span class="font-bold text-gold-dark"
-                  id="blessing-groom-name">ကိုမင်းခန့်</span> နှင့် ချစ်မရီး <span class="font-bold text-gold-dark"
-                  id="blessing-bride-name">မသုတဇင်</span> တို့၏ ဘဝတစ်ခုလုံးအတွက် အဓိပ္ပာယ်အရှိဆုံးနှင့်
+                  id="blessing-groom-name">ကိုမင်းဟိန်းထက်</span> နှင့် ချစ်မရီး <span class="font-bold text-gold-dark"
+                  id="blessing-bride-name">မဆုမြတ်နိုး</span> တို့၏ ဘဝတစ်ခုလုံးအတွက် အဓိပ္ပာယ်အရှိဆုံးနှင့်
                 အမွန်မြတ်ဆုံးဖြစ်သော မင်္ဂလာအခါသမယကို ညီငယ်နှင့်တကွ မိသားစုဝင်များအားလုံးက အထူးကြည်နူးဝမ်းမြောက်စွာ
                 ဂုဏ်ပြုဆုမွန်ကောင်း တောင်းအပ်ပါသည်။
               </p>
@@ -666,7 +666,7 @@
   </div>
 
   <!-- Background Wedding Music Audio Element (Autoplay & Loop) -->
-  <audio id="wedding-audio" src="wedding_music.mp3" autoplay loop preload="auto"></audio>
+  <audio id="wedding-audio" src="wedding_music.mp3" autoplay loop preload="auto" playsinline webkit-playsinline></audio>
 
   <!-- Floating Quick Music Control (Open / Close anywhere on page) -->
   <button id="floating-music-btn" onclick="toggleMusic()"
