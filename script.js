@@ -8,7 +8,7 @@ const DEFAULT_COUPLE = {
   brideName: 'မဆုမြတ်နိုး',
   weddingDate: '၂၀၂၆ ခုနှစ် မင်္ဂလာနှစ်မြတ်',
   blessingText: 'နှစ်ဦးနှစ်ဖက် လက်တွဲခိုင်မြဲလျက် ရှေ့ဆက်မည့် ဘဝခရီးလမ်းတလျှောက်တွင် စိတ်၏ချမ်းသာခြင်း၊ ကိုယ်၏ကျန်းမာခြင်းတို့နှင့် ပြည့်စုံပြီး စီးပွားဥစ္စာ ရတနာအဖြာဖြာ ဒီရေအလား တိုးတက်ကြပါစေ။ အချင်းချင်း နားလည်မှု၊ ယုံကြည်မှု၊ မေတ္တာတရားတို့ဖြင့် ရာသက်ပန် ထာဝရ ချစ်ခင်ကြည်နူးစွာ သာယာပျော်ရွှင်သော အိမ်ထောင်ရှင်ဘဝကို တည်ဆောက်နိုင်ကြပါစေကြောင်း ဆုတောင်းမေတ္တာ ပို့သအပ်ပါသည်။',
-  blessingAuthor: 'ချစ်လှစွာသော ညီငယ်နှင့် မိသားစုဝင်များ'
+  blessingAuthor: 'ချစ်လှစွာသော ညီလေးတုန်တုန်'
 };
 
 const DEFAULT_PHOTOS = [
@@ -471,7 +471,7 @@ function tryAutoPlayMusic() {
       const onFirstInteraction = () => {
         weddingAudio.play().then(() => {
           updateMusicUI(true);
-        }).catch(() => {});
+        }).catch(() => { });
         dismissWelcomeGate();
         document.removeEventListener('click', onFirstInteraction);
         document.removeEventListener('touchstart', onFirstInteraction);
