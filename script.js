@@ -55,7 +55,15 @@ let tempFileDataUrl = null;
 function initData() {
   const storedCouple = localStorage.getItem('keepsake_couple_data');
   if (storedCouple) {
-    try { coupleData = JSON.parse(storedCouple); } catch (e) { coupleData = { ...DEFAULT_COUPLE }; }
+    try {
+      coupleData = JSON.parse(storedCouple);
+      if (!coupleData.groomName || coupleData.groomName === 'ကိုမင်းခန့်') {
+        coupleData = { ...DEFAULT_COUPLE };
+        localStorage.setItem('keepsake_couple_data', JSON.stringify(coupleData));
+      }
+    } catch (e) {
+      coupleData = { ...DEFAULT_COUPLE };
+    }
   } else {
     coupleData = { ...DEFAULT_COUPLE };
   }
@@ -233,7 +241,7 @@ function renderGallery() {
 
       <div class="pt-2 border-t border-gold/15 flex items-center justify-between text-[11px] text-charcoal-muted font-serif-luxury italic">
         <span>Pre-Wedding Memory</span>
-        <span class="text-gold font-bold">♥ Click to view</span>
+        <span class="text-gold-dark font-bold">♥ Click to view</span>
       </div>
     `;
 

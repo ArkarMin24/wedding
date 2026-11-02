@@ -35,7 +35,7 @@ body {
   font-family: 'Padauk', sans-serif;
   line-height: 2.0;
   background-color: #FAF7F2;
-  color: #2C221E;
+  color: #241B17;
   overflow-x: hidden;
 }
 
@@ -48,19 +48,21 @@ body {
   font-family: 'Cormorant Garamond', serif;
 }
 
-/* Gold Metallic Gradients */
+/* Gold Metallic Gradients - High Contrast Royal Antique Gold (Glare-Free) */
 .gold-gradient-text {
-  background: linear-gradient(135deg, #B38728 0%, #FBF5B7 35%, #DAA520 60%, #AA771C 100%);
+  background: linear-gradient(135deg, #7A4B06 0%, #B8861B 40%, #8A5A12 75%, #633B03 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  display: inline-block;
 }
 
 .gold-foil-bg {
-  background: linear-gradient(135deg, #DFBA73 0%, #C5A059 50%, #9A742E 100%);
+  background: linear-gradient(135deg, #B58428 0%, #946416 50%, #6E4509 100%);
 }
 
 .gold-border-gradient {
-  border-image: linear-gradient(to bottom right, #D4AF37, #FBF5B7, #AA771C) 1;
+  border-image: linear-gradient(to bottom right, #B8861B, #DFBA73, #7A4B06) 1;
 }
 
 /* Arched Frame styling for Luxury Royal Portraits */
