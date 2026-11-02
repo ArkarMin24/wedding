@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Wedding Appreciation & Pre-Wedding Digital Keepsake - Stylesheet
+   Palette: Warm Ivory, Champagne, Myanmar Gold, Soft Blush, Deep Charcoal
+   ========================================================================== */
+
+/* Mobile UX & Tap Optimization */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch Action for Mobile Swipe Lightbox */
+#lightbox-modal {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Responsive Arched Frame scaling */
+@media (max-width: 640px) {
+  .arched-frame {
+    border-radius: 140px 140px 20px 20px;
+  }
+  .arched-frame::after {
+    border-radius: 132px 132px 14px 14px;
+    inset: 6px;
+  }
+  body {
+    line-height: 1.9;
+  }
+  .font-burmese {
+    line-height: 1.95;
+  }
+}
+
+/* Burmese Typography Enhancement */
+body {
+  font-family: 'Padauk', sans-serif;
+  line-height: 2.0;
+  background-color: #FAF7F2;
+  color: #2C221E;
+  overflow-x: hidden;
+}
+
+.font-burmese {
+  font-family: 'Padauk', sans-serif;
+  line-height: 2.1;
+}
+
+.font-serif-luxury {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Gold Metallic Gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #B38728 0%, #FBF5B7 35%, #DAA520 60%, #AA771C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-foil-bg {
+  background: linear-gradient(135deg, #DFBA73 0%, #C5A059 50%, #9A742E 100%);
+}
+
+.gold-border-gradient {
+  border-image: linear-gradient(to bottom right, #D4AF37, #FBF5B7, #AA771C) 1;
+}
+
+/* Arched Frame styling for Luxury Royal Portraits */
+.arched-frame {
+  border-radius: 200px 200px 24px 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px -5px rgba(197, 160, 89, 0.3), 0 0 0 1px rgba(212, 175, 55, 0.4);
+  position: relative;
+}
+
+.arched-frame::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 192px 192px 16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Glassmorphism Classes */
+.glass-nav {
+  background: rgba(250, 247, 242, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 197, 131, 0.35);
+}
+
+.glass-card-dark {
+  background: rgba(44, 34, 30, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Ambient Canvas Background */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Audio Equalizer Pulsing Bars */
+.eq-bar {
+  width: 3px;
+  background: #C5A059;
+  border-radius: 2px;
+  transition: height 0.2s ease;
+  animation: eqPulse 1.2s ease-in-out infinite alternate;
+}
+.eq-bar:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+.eq-bar:nth-child(2) { height: 14px; animation-delay: 0.3s; }
+.eq-bar:nth-child(3) { height: 9px; animation-delay: 0.5s; }
+.eq-bar:nth-child(4) { height: 16px; animation-delay: 0.2s; }
+
+@keyframes eqPulse {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+.paused-eq .eq-bar {
+  animation-play-state: paused;
+  height: 4px !important;
+}
+
+/* Traditional Corner Ornaments */
+.corner-ornament {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+}
+
+/* Spinning Music Record */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-disc {
+  animation: spinSlow 6s linear infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9A742E;
+}
+
